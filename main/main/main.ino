@@ -30,7 +30,7 @@ void loop()
   if (period_time != 0)
   {
     freq = double(1000000) / double(period_time);
-    freq = 0.1*freq + 0.9*ferqold;
+    freq = 0.1*freq + 0.9*freqold;
     freqold = freq;
     Serial.println(freq);
   }
