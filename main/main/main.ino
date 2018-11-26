@@ -25,8 +25,14 @@ void freqCount()
 ===========================*/
 void loop()
 {
+  static double freqold = 0;
+  double freq;
   if (period_time != 0)
   {
-    Serial.println(double(1000000) / double(period_time));
+    freq = double(1000000) / double(period_time);
+    freq = 0.1*freq + 0.9*ferqold;
+    freqold = freq;
+    Serial.println(freq);
   }
+
 }
