@@ -34,7 +34,6 @@ double rvn1 = 0;
 double rvn2 = 0;
 const double we = 1600;
 double wh = 2;
-double target_angle;
 double stack_angle;
 
 MPU6050 mpu;
@@ -226,7 +225,7 @@ void loop()
 
 	gzzz = gy[0];
 	gy[0] += gztank;
-
+	double target_angle;
 	switch (cspi1)
 	{
 	case 0: //GPS進行
