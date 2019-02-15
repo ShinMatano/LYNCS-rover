@@ -34,6 +34,8 @@ double rvn1 = 0;
 double rvn2 = 0;
 const double we = 1600;
 double wh = 2;
+double target_angle;
+double stack_angle;
 
 MPU6050 mpu;
 
@@ -142,6 +144,7 @@ void loop()
 		SPIRestoreInt(&buf[0], spi1);
 		SPIRestoreUnsignedChar(&buf[5], cspi1);
 		vkz_pid.SetPropotionGain(spi1/1000);
+		stack_angle=gy[0];
 		pos = 0;
 		process_it = false;
 	}
@@ -227,26 +230,25 @@ void loop()
 	switch (cspi1)
 	{
 	case 0: //GPS進行
-		rover_motor.RoverPower(0.5, 0);
+		target_angle=spi1/1000+stack_angle;
 		break;
 	case 1: //後進
 		rover_motor.RoverPower(-0.5, 0);
 		break;
 	case 2: //回避
 		// do something
+		target_angle=1.757+stack_angle;
 		break;
 	case 3: //停止
 		rover_motor.RoverPower(0, 0);
 		break;
-	case 4: //カメラ進行
-		// do something
-		break;
+
 	}
 	if(countx == 10){
 		gyz = gy[0];
 	}
 	if(countx > 10){
-	vkz_pid.InputPID(gyz-gy[0],0,0.01);
+	vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
 	kv_a_pid.InputPID(vn - v00,0,1);
 
 	vkz = vkz_pid.GetPID();
