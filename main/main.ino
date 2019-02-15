@@ -246,7 +246,7 @@ void loop()
 		gyz = gy[0];
 	}
 	if(countx > 10){
-	vkz_pid.InputPID(gy[0]-gyz,0,0.01);
+	vkz_pid.InputPID(gyz-gy[0],0,0.01);
 	kv_a_pid.InputPID(vn - v00,0,1);
 
 	vkz = vkz_pid.GetPID();
