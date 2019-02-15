@@ -18,7 +18,7 @@ double realaccel;
 
 lyncs::RoverMotor rover_motor = lyncs::RoverMotor();
 lyncs::Matrix<double, 3, 3> rotation_matrix = lyncs::Matrix<double, 3, 3>();
-lyncs::PIDController vkz_pid(1,0,0);
+lyncs::PIDController vkz_pid(9,62.28,0.108);
 lyncs::PIDController kv_a_pid(1,0,0);
 long int intypr[3];
 double aaxT;
@@ -39,10 +39,11 @@ MPU6050 mpu;
 
 double gzzz;
 double gztank = 0;
-double countx = 0;
+int countx = 0;
 double vkz = 0;
 double gy[3] = {0, 0, 0};
 double gyv[3] = {0, 0, 0};
+double gyz = 0;
 
 double v00;
 /* data */
@@ -241,13 +242,18 @@ void loop()
 		// do something
 		break;
 	}
-	vkz_pid.InputPID(gy[2],0,1);
+	if(countx == 10){
+		gyz = gy[0];
+	}
+	if(countx > 10){
+	vkz_pid.InputPID(gy[0]-gyz,0,0.01);
 	kv_a_pid.InputPID(vn - v00,0,1);
 
 	vkz = vkz_pid.GetPID();
 	rover_motor.RoverPower(0.5, vkz);
-	Serial.println(vkz);
-	//  Serial.println(gyv[2]);
+	//Serial.println(vkz);
+  }
+	  Serial.println(gyz-gy[0]);
 	countx++;
 }
 
