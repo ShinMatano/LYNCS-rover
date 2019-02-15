@@ -229,7 +229,7 @@ void loop()
 	switch (cspi1)
 	{
 	case 0: //GPS進行
-		target_angle=spi1/1000+stack_angle;
+		target_angle=(-1)*spi1/1000+stack_angle;
 		break;
 	case 1: //後進
 		rover_motor.RoverPower(-0.5, 0);
