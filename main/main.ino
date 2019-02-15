@@ -97,10 +97,10 @@ void setup()
 
 	mpu.initialize();
 	devStatus = mpu.dmpInitialize();
-	mpu.setXGyroOffset(209);
-	mpu.setYGyroOffset(47);
-	mpu.setZGyroOffset(-21);
-	mpu.setZAccelOffset(1957); // 1688 factory default for my test chip
+	mpu.setXGyroOffset(236);
+	mpu.setYGyroOffset(-9);
+	mpu.setZGyroOffset(-4);
+	mpu.setZAccelOffset(1316); // 1688 factory default for my test chip
 	if (devStatus == 0)
 	{
 		mpu.setDMPEnabled(true);
