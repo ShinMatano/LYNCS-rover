@@ -39,11 +39,6 @@ int main(void){
 
 
 
-   if (inputdata.empty()){
-   cout << "end0" << endl;
-     return(1);
-   }
-
    Mat mask1,mask2,hsv_image;
    cvtColor(inputdata, hsv_image, CV_BGR2HSV, 3);
 
