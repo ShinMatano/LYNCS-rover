@@ -143,10 +143,11 @@ void loop()
 		SPIRestoreInt(&buf[0], spi1);
 		SPIRestoreUnsignedChar(&buf[5], cspi1);
 		vkz_pid.SetPropotionGain(spi1/1000);
-		stack_angle=gy[0];
+		stack_angle=gyz-gy[0];
 		pos = 0;
 		process_it = false;
 	}
+  
 
 	if (!dmpReady)
 	{
@@ -232,7 +233,7 @@ void loop()
 	if(countx > 10){
 		switch (cspi1)
 		{
-		case 0: //GPS進行
+		case 4: //GPS進行
 			target_angle=(-1)*spi1/1000+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
 			vkz = vkz_pid.GetPID();
@@ -241,7 +242,7 @@ void loop()
 		case 1: //後進
 			rover_motor.RoverPower(-0.5, 0);
 			break;
-		case 2: //回避
+		case 0: //回避
 			// do something
 			target_angle=1.757+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
@@ -251,7 +252,7 @@ void loop()
 		case 3: //停止
 			rover_motor.RoverPower(0, 0);
 			break;
-	  case 4: //回転
+	  case 2: //回転
 			// do something
 			target_angle=1.047+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
@@ -264,7 +265,13 @@ void loop()
 
 	//Serial.println(vkz);
   }
-	  Serial.println(gyz-gy[0]);
+	  Serial.print(spi1);
+   Serial.print(" ");
+   Serial.print(cspi1);
+   Serial.print(" ");
+   Serial.println(stack_angle);
+   
+   //Serial.println(stack_angle);
 	countx++;
 }
 
