@@ -1,4 +1,10 @@
-from bin import  lyncs_rover
+from bin import lyncs_rover
+import time
 
 
-lyncs_rover.TransferValuesToArduino(1,1)
+cs = lyncs_rover.arduino_control()
+if cs.Init() == -1:
+    print('error')
+    exit()
+while True: 
+    cs.Csearch1()

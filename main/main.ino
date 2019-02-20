@@ -34,6 +34,7 @@ double rvn1 = 0;
 double rvn2 = 0;
 const double we = 1600;
 double wh = 2;
+double stack_angle;
 
 MPU6050 mpu;
 
@@ -142,9 +143,11 @@ void loop()
 		SPIRestoreInt(&buf[0], spi1);
 		SPIRestoreUnsignedChar(&buf[5], cspi1);
 		vkz_pid.SetPropotionGain(spi1/1000);
+		stack_angle=gyz-gy[0];
 		pos = 0;
 		process_it = false;
 	}
+  
 
 	if (!dmpReady)
 	{
@@ -223,37 +226,52 @@ void loop()
 
 	gzzz = gy[0];
 	gy[0] += gztank;
-
-	switch (cspi1)
-	{
-	case 0: //GPS進行
-		rover_motor.RoverPower(0.5, 0);
-		break;
-	case 1: //後進
-		rover_motor.RoverPower(-0.5, 0);
-		break;
-	case 2: //回避
-		// do something
-		break;
-	case 3: //停止
-		rover_motor.RoverPower(0, 0);
-		break;
-	case 4: //カメラ進行
-		// do something
-		break;
-	}
+	double target_angle;
 	if(countx == 10){
 		gyz = gy[0];
 	}
 	if(countx > 10){
-	vkz_pid.InputPID(gyz-gy[0],0,0.01);
-	kv_a_pid.InputPID(vn - v00,0,1);
+		switch (cspi1)
+		{
+		case 4: //GPS進行
+			target_angle=(-1)*spi1/1000+stack_angle;
+			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
+			vkz = vkz_pid.GetPID();
+			rover_motor.RoverPower(0.5, vkz);
+			break;
+		case 1: //後進
+			rover_motor.RoverPower(-0.5, 0);
+			break;
+		case 0: //回避
+			// do something
+			target_angle=1.757+stack_angle;
+			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
+			vkz = vkz_pid.GetPID();
+			rover_motor.RoverPower(0.5, vkz);
+			break;
+		case 3: //停止
+			rover_motor.RoverPower(0, 0);
+			break;
+	  case 2: //回転
+			// do something
+			target_angle=1.047+stack_angle;
+			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
+			vkz = vkz_pid.GetPID();
+			rover_motor.RoverPower(0, vkz);
+			break;
+		}
 
-	vkz = vkz_pid.GetPID();
-	rover_motor.RoverPower(0.5, vkz);
+	//kv_a_pid.InputPID(vn - v00,0,1);
+
 	//Serial.println(vkz);
   }
-	  Serial.println(gyz-gy[0]);
+	  Serial.print(spi1);
+   Serial.print(" ");
+   Serial.print(cspi1);
+   Serial.print(" ");
+   Serial.println(stack_angle);
+   
+   //Serial.println(stack_angle);
 	countx++;
 }
 
