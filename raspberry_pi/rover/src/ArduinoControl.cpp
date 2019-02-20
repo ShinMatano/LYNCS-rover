@@ -10,7 +10,7 @@ void Csearch1()
 
 	while (k < 4)
 	{
-		judgei = Csearch(80, 40, 80, 40, xy);
+		judgei = Csearch(110, 101, 100, 90, xy);
 		if (judgei == 2 && judgei == 3)
 		{
 			TransferValuesToArduino(0, 1);
