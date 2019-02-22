@@ -54,7 +54,7 @@ lyncs::LowPass<double> pty(0.05);
 
 char buf[100];
 int spi1;
-unsigned char cspi1;
+unsigned char cspi1=4;
 volatile byte pos;
 volatile boolean process_it;
 bool dmpReady = false;  // set true if DMP init was successful
@@ -237,17 +237,17 @@ void loop()
 			target_angle=(-1)*spi1/1000+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
 			vkz = vkz_pid.GetPID();
-			rover_motor.RoverPower(0.5, vkz);
+			rover_motor.RoverPower(1, vkz);
 			break;
 		case 1: //後進
-			rover_motor.RoverPower(-0.5, 0);
+			rover_motor.RoverPower(-1, 0);
 			break;
 		case 0: //回避
 			// do something
 			target_angle=1.757+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
 			vkz = vkz_pid.GetPID();
-			rover_motor.RoverPower(0.5, vkz);
+			rover_motor.RoverPower(1, vkz);
 			break;
 		case 3: //停止
 			rover_motor.RoverPower(0, 0);
