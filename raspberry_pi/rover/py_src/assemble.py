@@ -1,3 +1,4 @@
+from bin import lyncs_rover
 import rover_module as gps
 from time import sleep
 
