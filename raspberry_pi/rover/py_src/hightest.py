@@ -1,4 +1,4 @@
-import rover_module
+from rover_module import height
 
 givendata = 30
 
