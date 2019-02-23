@@ -179,9 +179,9 @@ get_calib_param()
 if __name__ == '__main__':
     try:
         D_m = Data_manipulate()
-        judgeHight1():
+        judgeHight1()
         print("phase1")
-        judgeHight2():
+        judgeHight2()
         print("phase2")
 
     except KeyboardInterrupt:
