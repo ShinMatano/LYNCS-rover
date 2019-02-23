@@ -252,20 +252,19 @@ void loop()
 		case 3: //停止
 			rover_motor.RoverPower(0, 0);
 			break;
-	  case 2: //回転
+		case 2: //回転
 			// do something
 			target_angle=1.047+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
 			vkz = (-1)*vkz_pid.GetPID();
 			rover_motor.RoverPower(0, vkz);
 			break;
-    case 5: //GPS
-      target_angle=(-1)*(double)spi1/1000;
-      vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
-      vkz = (-1)*vkz_pid.GetPID();
-      rover_motor.RoverPower(1, vkz);
-      break;
-      
+		case 5: //GPS
+      			target_angle=(-1)*(double)spi1/1000;
+      			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
+      			vkz = (-1)*vkz_pid.GetPID();
+      			rover_motor.RoverPower(1, vkz);
+      			break;
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);
