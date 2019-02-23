@@ -1,16 +1,16 @@
-from bin import lyncs_rover
 import rover_module as gps
 from time import sleep
 
-goal_lat = 0
-goal_long =0
 cs = lyncs_rover.arduino_control()
 cs.Init()
 while True:
-    cs.Csearch1()
-    r_theata = gps.r_theta_to_goal(goal_lat, goal_long)
-    if r_theata[0]*1000 < 20:
-        cs.Csearch2()
-    else:
-        cs.Transfer((int)(r_theata[0]*1000), 0)
-    sleep(1)
+    for i in range(25):
+        cs.Csearch1()
+
+    length, theta = gps.r_theta_to_goal(35.555225, 139.654664)
+    #if r_theata[0]*1000 < 20:
+    #    cs.Csearch2()
+    #else:
+    cs.Transfer(int(theta*1000), 5)
+    #print("s")
+    #sleep(1)
