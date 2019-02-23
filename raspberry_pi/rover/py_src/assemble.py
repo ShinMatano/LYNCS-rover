@@ -5,7 +5,7 @@ from time import sleep
 cs = lyncs_rover.arduino_control()
 if cs.Init() == -1:
     print('error')
-    exit()
+    
 while True:
     length, theta = gps.r_theta_to_goal(35.555225, 139.654664)
     for i in range(25):
