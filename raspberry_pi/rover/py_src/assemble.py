@@ -14,7 +14,7 @@ while True:
     #if r_theata[0]*1000 < 20:
     #    cs.Csearch2()
     #else:
-    if length*1000=>20:
+    if length*1000>=20:
         cs.Transfer(int(theta*1000), 5)
         print(int(theta*1000))
         print('5')
