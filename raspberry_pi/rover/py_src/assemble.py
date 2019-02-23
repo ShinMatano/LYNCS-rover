@@ -1,4 +1,3 @@
-from bin import lyncs_rover
 import rover_module as gps
 from time import sleep
 
@@ -15,7 +14,5 @@ while True:
     #if r_theata[0]*1000 < 20:
     #    cs.Csearch2()
     #else:
-    if length*1000 >= 20:
+    if length*1000=>20:
         cs.Transfer(int(theta*1000), 5)
-    #print("s")
-    #sleep(1)

@@ -46,6 +46,7 @@ int ArduinoControl::Csearch1()
 		}
 		if (judgei == 0)
 		{
+			return 1;
 			break;
 			return 1;
 		}
