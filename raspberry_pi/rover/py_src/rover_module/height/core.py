@@ -165,11 +165,11 @@ def judgeHight1():
 
 def judgeHight2():
     while True:
-    global given_data
-    judge_data = readData()
-    if judge_data < low_high and math.fabs(given_data-judge_data) < 1:
-        break
-    given_data = judge_data
+        global given_data
+        judge_data = readData()
+        if judge_data < low_high and math.fabs(given_data-judge_data) < 1:
+            break
+        given_data = judge_data
 
 
 
