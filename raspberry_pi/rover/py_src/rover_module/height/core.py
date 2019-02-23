@@ -1,5 +1,6 @@
 from smbus import SMBus
 import time
+import math
 
 sea_pressure = 1024.7
 max_high = 30
@@ -155,18 +156,21 @@ def setup():
 
 
 def judgeHight1():
-    if readData() < max_high:
-        return 0
-    else:
-        return 1
+    while True:
+        if readData() < max_high:
+            break
+        time.sleep(1)
+
 
 
 def judgeHight2():
-    judge_newH_data = readData()
-    if judge_newH_data < max_high:
-        return 0
-    else:
-        return 1
+    while True:
+    global given_data
+    judge_data = readData()
+    if judge_data < low_high and math.fabs(given_data-judge_data) < 1:
+        break
+    given_data = judge_data
+
 
 
 setup()
@@ -175,11 +179,9 @@ get_calib_param()
 if __name__ == '__main__':
     try:
         D_m = Data_manipulate()
-        while judgeHight1():
-            time.sleep(1)
+        judgeHight1():
         print("phase1")
-        while judgeHight2():
-            time.sleep(1)
+        judgeHight2():
         print("phase2")
 
     except KeyboardInterrupt:
