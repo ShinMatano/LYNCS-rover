@@ -2,9 +2,10 @@ from smbus import SMBus
 import time
 import math
 
-sea_pressure = 1016.5
-max_high = 20
-low_high = 50
+sea_pressure = 1023
+max_high = 40
+low_high = 33
+given_data = 30
 
 bus_number = 1
 i2c_address = 0x76
@@ -79,8 +80,11 @@ def readData():
     recover_T = compensate_T(temp_raw)
     recover_P = compensate_P(pres_raw)
     recover_H = compensate_H(hum_raw)
-    mesure_high = ((sea_pressure / recover_P)**
-                   (1 / 5.257) - 1) * (recover_T + 273.15) / 0.0065
+    #print(recover_T)
+    #print(recover_P)
+    #print(recover_H)
+    mesure_high = ((((sea_pressure/recover_P)**(1/5.257)) - 1.) * (recover_T + 273.15)) / 0.0065
+    #print(mesure_high)
     return mesure_high
 
 
@@ -157,7 +161,9 @@ def setup():
 
 def judgeHight1():
     while True:
-        if readData() < max_high:
+        judge_data0 = readData()
+        #print(judge_data0)
+        if judge_data0 > max_high:
             break
         time.sleep(1)
 
