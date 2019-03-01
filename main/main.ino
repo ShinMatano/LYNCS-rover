@@ -54,6 +54,7 @@ lyncs::LowPass<double> pty(0.05);
 
 char buf[100];
 int spi1;
+int judge_bool = 0;
 unsigned char cspi1=7;
 volatile byte pos;
 volatile boolean process_it;
@@ -267,10 +268,14 @@ void loop()
       			rover_motor.RoverPower(1, vkz);
       			break;
     case 6:
+            if(judge_bool == 0){
             digitalWrite(11, HIGH);
-            delay(500);
+            delay(800);
             digitalWrite(11, LOW);
             delay(2000);
+            judge_bool = 1;
+            }
+            
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);
