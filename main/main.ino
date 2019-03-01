@@ -93,6 +93,7 @@ void setup()
 	Wire.begin();
 	Wire.setClock(400000L);
 	Serial.begin(115200);
+  pinMode(11, OUTPUT);
 	while (!Serial)
 	{
 	}
@@ -231,22 +232,22 @@ void loop()
 		gyz = gy[0];
 	}
 	if(countx > 10){
-		switch (4)
+		switch (cspi1)
 		{
 		case 4: //Gカメラ進行
 			target_angle=(-1)*spi1/1000+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
-			vkz = vkz_pid.GetPID();
+			vkz = (-1)*vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
 			break;
-		case 1: //後進
+		case 0: //後進
 			rover_motor.RoverPower(-1, 0);
 			break;
-		case 0: //回避
+		case 1: //回避
 			// do something
 			target_angle=1.757+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
-			vkz = vkz_pid.GetPID();
+			vkz = (-1)*vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
 			break;
 		case 3: //停止
@@ -256,21 +257,26 @@ void loop()
 			// do something
 			target_angle=1.047+stack_angle;
 			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
-			vkz = vkz_pid.GetPID();
+			vkz = (-1)*vkz_pid.GetPID();
 			rover_motor.RoverPower(0, vkz);
 			break;
 		case 5: //GPS
       			target_angle=(-1)*(double)spi1/1000;
       			vkz_pid.InputPID(gyz-gy[0],target_angle,0.01);
-      			vkz = vkz_pid.GetPID();
+      			vkz = (-1)*vkz_pid.GetPID();
       			rover_motor.RoverPower(1, vkz);
       			break;
+    case 6:
+            digitalWrite(11, HIGH);
+            delay(2000);
+            digitalWrite(11, LOW);        
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);
 
 	//Serial.println(vkz);
   }
+  
 	  Serial.print(spi1);
    Serial.print(" ");
    Serial.print(cspi1);
