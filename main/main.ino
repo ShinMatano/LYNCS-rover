@@ -54,7 +54,7 @@ lyncs::LowPass<double> pty(0.05);
 
 char buf[100];
 int spi1;
-unsigned char cspi1=4;
+unsigned char cspi1=7;
 volatile byte pos;
 volatile boolean process_it;
 bool dmpReady = false;  // set true if DMP init was successful
@@ -148,7 +148,7 @@ void loop()
 		pos = 0;
 		process_it = false;
 	}
-  
+
 
 	if (!dmpReady)
 	{
@@ -269,20 +269,20 @@ void loop()
     case 6:
             digitalWrite(11, HIGH);
             delay(2000);
-            digitalWrite(11, LOW);        
+            digitalWrite(11, LOW);
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);
 
 	//Serial.println(vkz);
   }
-  
+
 	  Serial.print(spi1);
    Serial.print(" ");
    Serial.print(cspi1);
    Serial.print(" ");
    Serial.println(target_angle);
-   
+
    //Serial.println(stack_angle);
 	countx++;
 }
