@@ -168,7 +168,6 @@ def judgeHight1():
         time.sleep(1)
 
 
-
 def judgeHight2():
     while True:
         global given_data
