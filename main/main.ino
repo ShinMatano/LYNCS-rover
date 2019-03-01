@@ -268,8 +268,9 @@ void loop()
       			break;
     case 6:
             digitalWrite(11, HIGH);
-            delay(2000);
+            delay(500);
             digitalWrite(11, LOW);
+            delay(2000);
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);
