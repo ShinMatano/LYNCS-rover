@@ -7,12 +7,12 @@ height.judgeHight1()
 print("phase1")
 height.judgeHight2()
 print("phase2")
-cs.Transfer(0, 6)
-sleep(1)
 
 cs = lyncs_rover.arduino_control()
 if cs.Init() == -1:
     print('error')
+cs.Transfer(0, 6)
+sleep(1)
 
 while True:
     length, theta = gps.r_theta_to_goal(35.555531, 139.653852)
