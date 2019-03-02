@@ -1,13 +1,13 @@
 from bin import lyncs_rover
 import rover_module as gps
-from rover_module import height
+#from rover_module import height
 from time import sleep
 
 
-height.judgeHight1()
-print("phase1")
-height.judgeHight2()
-print("phase2")
+#height.judgeHight1()
+#print("phase1")
+#height.judgeHight2()
+#print("phase2")
 
 cs = lyncs_rover.arduino_control()
 if cs.Init() == -1:
@@ -15,8 +15,17 @@ if cs.Init() == -1:
 cs.Transfer(0, 6)
 sleep(1)
 
+length, theta = [0,0]
 while True:
-    length, theta = gps.r_theta_to_goal(35.555744, 139.654071)
+    list_dis_thet = gps.r_theta_to_goal(35.555744, 139.654071)
+    if list_dis_thet != None:
+        length, theta = list_dis_thet
+        break
+
+while True:
+    list_dis_thet = gps.r_theta_to_goal(35.555744, 139.654071)
+    if list_dis_thet != None:
+        length, theta = list_dis_thet
     #print(length)
     #print(theta)
     #cs.Transfer(int(theta*1000), 5)

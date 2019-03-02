@@ -18,6 +18,7 @@ def lat_long_reader(sentence):
     list : list of float or None
         緯度と経度のリスト。sentenceにこれらの情報が含まれていなかった場合はNoneとなる。
     """
+    print(sentence)
     msg = pynmea2.parse(sentence)
     lat = None
     longi = None
@@ -90,6 +91,7 @@ def velocity_measurement():
             gps_data = velocity_reader(sentence)
             break
     return [gps_data[0], gps_data[1]]
+
 
 r = 6378.137  # km
 

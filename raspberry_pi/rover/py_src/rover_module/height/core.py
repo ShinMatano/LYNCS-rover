@@ -2,9 +2,9 @@ from smbus import SMBus
 import time
 import math
 
-sea_pressure = 1019
-max_high = 40
-low_high = 35
+sea_pressure = 1018
+max_high = 50
+low_high = 42
 given_data = 30
 
 bus_number = 1
