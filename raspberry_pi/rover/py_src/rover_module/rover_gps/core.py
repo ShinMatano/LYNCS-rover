@@ -18,7 +18,6 @@ def lat_long_reader(sentence):
     list : list of float or None
         緯度と経度のリスト。sentenceにこれらの情報が含まれていなかった場合はNoneとなる。
     """
-    print(sentence)
     msg = pynmea2.parse(sentence)
     lat = None
     longi = None
