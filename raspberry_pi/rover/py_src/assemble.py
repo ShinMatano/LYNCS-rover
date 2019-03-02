@@ -20,7 +20,7 @@ while True:
     print(length)
     print(theta)
     cs.Transfer(int(theta*1000), 5)
-    sleep(10)
+    sleep(3)
     #for i in range(50):
         #judge=cs.Csearch1()
         #if length*1000 < 10000 and judge == 1:
