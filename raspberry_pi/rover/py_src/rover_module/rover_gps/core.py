@@ -91,7 +91,6 @@ def velocity_measurement():
             break
     return [gps_data[0], gps_data[1]]
 
-
 r = 6378.137  # km
 
 
