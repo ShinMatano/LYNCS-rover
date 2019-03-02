@@ -18,6 +18,7 @@ while True:
     length, theta = gps.r_theta_to_goal(35.555430, 139.663064)
     print(length)
     print(theta)
+    cs.Transfer(int(theta*1000), 5)
     sleep(1)
     #for i in range(50):
         #judge=cs.Csearch1()
