@@ -3,6 +3,7 @@ import rover_module as gps
 from rover_module import height
 from time import sleep
 
+
 #height.judgeHight1()
 #print("phase1")
 #height.judgeHight2()
@@ -19,7 +20,7 @@ while True:
     print(length)
     print(theta)
     cs.Transfer(int(theta*1000), 5)
-    sleep(1)
+    sleep(10)
     #for i in range(50):
         #judge=cs.Csearch1()
         #if length*1000 < 10000 and judge == 1:
