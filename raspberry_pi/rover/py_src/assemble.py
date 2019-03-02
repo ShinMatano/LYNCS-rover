@@ -15,7 +15,7 @@ if cs.Init() == -1:
 #sleep(1)
 
 while True:
-    length, theta = gps.r_theta_to_goal(35.553877, 139.654568)
+    length, theta = gps.r_theta_to_goal(35.550941, 139.671142)
     print(length)
     print(theta)
     sleep(1)
