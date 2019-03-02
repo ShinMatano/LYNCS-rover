@@ -275,7 +275,6 @@ void loop()
             delay(2000);
             judge_bool = 1;
             }
-            
 		}
 
 	//kv_a_pid.InputPID(vn - v00,0,1);

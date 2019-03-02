@@ -2,89 +2,134 @@
 #include "../include/CalculateCsearch.h"
 #include "../include/TransferValuesToArduino.h"
 #include "../include/ArduinoControl.h"
-#include <iostream>
+#include <iomanip> //時間を取得
+#include <sstream> //値を文字列にする
 using namespace std;
 
 int count = 0;
 
-ArduinoControl::ArduinoControl(/* args */)
+ArduinoControl::ArduinoControl(/* args */) : log_file_("rover.log")
 {
 }
 
 ArduinoControl::~ArduinoControl()
 {
+	log_file_.close();
 }
 
-int ArduinoControl::Init(){
+int ArduinoControl::Init()
+{
+	LogOutput("__arduino_control_init__");
 	int ret_cs = csearch_.Init();
 	int ret_ar = transfer_.Init();
-	if (ret_cs < 0 || ret_ar < 0) {
+	if (ret_cs < 0) {
+		stringstream s;
+		s << "camera error code::" << ret_cs;
+		LogOutput(s.str());
+	}else{
+		LogOutput("successfully opened the camera");
+	}
+
+	if (ret_ar < 0) {
+		stringstream s;
+		s << "spi error code::" << ret_ar;
+		LogOutput(s.str());
+	}else{
+		LogOutput("successfully opened the Arduino micro");
+	}
+	
+	if (ret_cs * ret_ar < 0)
+	{
 		return -1;
-	}else
+	}
+	else
 	{
 		return 0;
 	}
 }
+
+void ArduinoControl::LogOutput(string str)
+{
+
+	time_t t = time(nullptr);
+	const tm *lt = localtime(&t);
+	stringstream s;
+	stringstream log_result;
+	s<< lt->tm_hour << "h";
+	s<< lt->tm_min << "m";
+	s<< lt->tm_sec << "s";
+	s << " " << str;
+	//result = "2015-5-19-11-30-21"
+	string result = s.str();
+	log_file_ << result << endl;
+	cout << str << endl;
+}
+
 int ArduinoControl::Transfer(int angle, unsigned char order)
 {
-	transfer_.Transfer(angle,order);
+	transfer_.Transfer(angle, order);
+	stringstream log_result;
+	log_result  << "angle::"<< angle << ",order::" << int(order) << "";
+	LogOutput(log_result.str());
 }
 int ArduinoControl::Csearch1()
 {
 	int judgei;
-	char k = 0;
 	double xy[2];
-
-	while (k < 4)
+	for (int i = 0; i < 4; i++)
 	{
 		judgei = csearch_.Search(118, 117, 122, 119, xy);
-		if (judgei == 2 or judgei == 3)
+		stringstream s;
+		switch (judgei)
 		{
-			transfer_.Transfer(0, 1);
-			cout << "0" << " "<< "1" << endl;
-			break;
-		}
-		if (judgei == 0)
-		{
+		case 0:
 			return 1;
 			break;
-			return 1;
+		case 2:
+		case 3:
+			s << "purble object detected. going backward. coordinate..." << " " << "x::" << xy[0] << ",y::" << xy[1] << "";
+			LogOutput(s.str());
+			Transfer(0, 1);
+			return 0;
+			break;
+		default:
+			break;
 		}
-
-		k++;
 	}
+	return 0;
 }
 
-void ArduinoControl::Csearch2()
+int ArduinoControl::Csearch2()
 {
 	int judgei;
 	char k = 0;
 	double answer;
 	double xy[2];
-
-	while (k < 4)
+	for (int i = 0; i < 4; i++)
 	{
+		stringstream s;
 		judgei = csearch_.Search(10, 0, 180, 140, xy);
-		if (judgei == 2)
+		switch (judgei)
 		{
+		case 0:
+			Transfer(0, 2);
+			return 0;
+			break;
+		case 2:
+			s << "red object detected. coordinate..." << " " << "x::" << xy[0] << ",y::" << xy[1] << "";
+			LogOutput(s.str());
 			answer = ConvertCoordinateToAngle(xy) * 1000;
-			transfer_.Transfer((int)answer, 4);
-			cout << answer << " " << "4" <<  endl;
+			Transfer((int)answer, 4);
+			return 0;
+			break;
+		case 3:
+			s << "red object detected. goal.";
+			Transfer(0, 3);
+			return 0;
+			break;
+		default:
 			break;
 		}
-		if (judgei == 0)
-		{
-			transfer_.Transfer(0, 2);
-			cout << "0" << " "<< "2" << endl;
-			break;
-		}
-		if (judgei == 3)
-		{
-			transfer_.Transfer(0, 3);
-			cout << "0" << " "<< "3" << endl;
-			break;
-		}
-
-		k++;
 	}
+	return 0;
 }
