@@ -15,7 +15,7 @@ if cs.Init() == -1:
 #sleep(1)
 
 while True:
-    length, theta = gps.r_theta_to_goal(35.555774, 139.654005)
+    length, theta = gps.r_theta_to_goal(35.555355, 139.655751)
     for i in range(25):
         judge=cs.Csearch1()
         if length*1000 < 10 and judge == 1:
