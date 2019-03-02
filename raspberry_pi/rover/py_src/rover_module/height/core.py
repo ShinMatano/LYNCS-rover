@@ -3,13 +3,8 @@ import time
 import math
 
 sea_pressure = 1018
-<<<<<<< HEAD
 max_high = 50
 low_high = 42
-=======
-max_high = 40
-low_high = 35
->>>>>>> e2bcb5f9bbac347e6b870f233fa8e540188ebe08
 given_data = 30
 
 bus_number = 1
