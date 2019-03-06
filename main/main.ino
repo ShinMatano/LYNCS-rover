@@ -238,7 +238,7 @@ void loop()
 			// do something
 			target_angle = 1.757 + stack_angle;
 			vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
-			vkz = (-1) * vkz_pid.GetPID();
+			vkz = vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
 			break;
 		case 2: //回転
@@ -250,13 +250,13 @@ void loop()
 		case 4: //Gカメラ進行
 			target_angle = (-1) * spi1 / 1000 + stack_angle;
 			vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
-			vkz = (-1) * vkz_pid.GetPID();
+			vkz = vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
 			break;
 		case 5: //GPS
 			target_angle = (-1) * (double)spi1 / 1000 + ((int)((gyz - gy[0]) / 3.1415)) * 3.1415;
 			vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
-			vkz = (-1) * vkz_pid.GetPID();
+			vkz = vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
 			break;
 		case 6://パラ分離
