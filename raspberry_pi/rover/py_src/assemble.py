@@ -1,20 +1,23 @@
+# -*- coding: utf-8 -*-
 from bin import lyncs_rover
 import rover_module as gps
 from rover_module import height
 from time import sleep
 
 goal_lat, goal_log = [35.555744, 139.654071]
+minimum_dist = 5
 
 cs = lyncs_rover.arduino_control()
 if cs.Init() == -1:
     print('error')
+cs.Transfer(0, 3)
 
 count = 0
 while True:
     count += 1
     judge_data0 = height.readData()
     if count % 10 == 1:
-        cs.LogOutput('phase1, height::' + str(judge_data0))
+        cs.LogOutput('phase1, height::' + str(judge_data0) + 'm')
     if judge_data0 > height.max_high:
         break
 
@@ -22,7 +25,7 @@ while True:
     count += 1
     judge_data = height.readData()
     if count % 10 == 1:
-        cs.LogOutput('phase2, height::' + str(judge_data))
+        cs.LogOutput('phase2, height::' + str(judge_data) + 'm')
 
     if judge_data < height.low_high and height.math.fabs(height.given_data -
                                                          judge_data) < 0.8:
@@ -54,10 +57,10 @@ while True:
         cs.LogOutput('dist::' + str(length) + ', angle::' + str(theta))
     for i in range(25):
         judge = cs.Csearch1()
-        if length * 1000 < 5 and judge == 1:
+        if length * 1000 < minimum_dist and judge == 1:
             cs.Csearch2()
     # f r_theata[0]*1000 < 20:
     #    cs.Csearch2()
     # else:
-    if length * 1000 >= 5:
+    if length * 1000 >= minimum_dist:
         cs.Transfer(int(theta * 1000), 5)

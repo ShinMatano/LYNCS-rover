@@ -254,7 +254,7 @@ void loop()
 			rover_motor.RoverPower(1, vkz);
 			break;
 		case 5: //GPS
-			target_angle = (-1) * (double)spi1 / 1000 + ((int)((gyz - gy[0]) / 3.1415)) * 3.1415;
+			target_angle = (-1) * (double)spi1 / 1000 + ((int)((gyz - gy[0]) / PI)) * PI;
 			vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
 			vkz = vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
