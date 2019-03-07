@@ -22,22 +22,28 @@ int ArduinoControl::Init()
 	LogOutput("__arduino_control_init__");
 	int ret_cs = csearch_.Init();
 	int ret_ar = transfer_.Init();
-	if (ret_cs < 0) {
+	if (ret_cs < 0)
+	{
 		stringstream s;
 		s << "camera error code::" << ret_cs;
 		LogOutput(s.str());
-	}else{
+	}
+	else
+	{
 		LogOutput("successfully opened the camera");
 	}
 
-	if (ret_ar < 0) {
+	if (ret_ar < 0)
+	{
 		stringstream s;
 		s << "spi error code::" << ret_ar;
 		LogOutput(s.str());
-	}else{
+	}
+	else
+	{
 		LogOutput("successfully opened the Arduino micro");
 	}
-	
+
 	if (ret_cs * ret_ar < 0)
 	{
 		return -1;
@@ -55,9 +61,9 @@ void ArduinoControl::LogOutput(string str)
 	const tm *lt = localtime(&t);
 	stringstream s;
 	stringstream log_result;
-	s<< lt->tm_hour << "h";
-	s<< lt->tm_min << "m";
-	s<< lt->tm_sec << "s";
+	s << lt->tm_hour << "h";
+	s << lt->tm_min << "m";
+	s << lt->tm_sec << "s";
 	s << " " << str;
 	//result = "2015-5-19-11-30-21"
 	string result = s.str();
@@ -69,7 +75,7 @@ int ArduinoControl::Transfer(int angle, unsigned char order)
 {
 	transfer_.Transfer(angle, order);
 	stringstream log_result;
-	log_result  << "angle::"<< angle << ",order::" << int(order) << "";
+	log_result << "angle::" << angle << ",order::" << int(order) << "";
 	LogOutput(log_result.str());
 }
 int ArduinoControl::Csearch1()
@@ -78,7 +84,7 @@ int ArduinoControl::Csearch1()
 	double xy[2];
 	for (int i = 0; i < 4; i++)
 	{
-		judgei = csearch_.Search(118, 117, 122, 119, xy);
+		judgei = csearch_.Search(10, 0, 180, 140, xy); //judgei = csearch_.Search(118, 117, 122, 119, xy);
 		stringstream s;
 		switch (judgei)
 		{
@@ -87,7 +93,9 @@ int ArduinoControl::Csearch1()
 			break;
 		case 2:
 		case 3:
-			s << "purble object detected. going backward. coordinate..." << " " << "x::" << xy[0] << ",y::" << xy[1] << "";
+			s << "purble object detected. going backward. coordinate..."
+			  << " "
+			  << "x::" << xy[0] << ",y::" << xy[1] << "";
 			LogOutput(s.str());
 			Transfer(0, 1);
 			return 0;
@@ -116,7 +124,9 @@ int ArduinoControl::Csearch2()
 			return 0;
 			break;
 		case 2:
-			s << "red object detected. coordinate..." << " " << "x::" << xy[0] << ",y::" << xy[1] << "";
+			s << "red object detected. coordinate..."
+			  << " "
+			  << "x::" << xy[0] << ",y::" << xy[1] << "";
 			LogOutput(s.str());
 			answer = ConvertCoordinateToAngle(xy) * 1000;
 			Transfer((int)answer, 4);
@@ -132,4 +142,59 @@ int ArduinoControl::Csearch2()
 		}
 	}
 	return 0;
+}
+
+int ArduinoControl::Csearch3()
+{
+	int judgei;
+	double xy[2];
+	int ret = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		judgei = csearch_.Search(10, 0, 180, 140, xy); //judgei = csearch_.Search(118, 117, 122, 119, xy);
+		stringstream s;
+		switch (judgei)
+		{
+		case 0:
+		{
+			ret = 1;
+			s << "red object can't detect."
+			  << "";
+			LogOutput(s.str());
+			break;
+		}
+		case 1:
+		{
+			ret = 1;
+			s << "camera did not work well.";
+			 LogOutput(s.str());
+			break;
+		}
+		case 2: //通常検出
+		{
+			s << "red object detected. coordinate..."
+			  << " "
+			  << "x::" << xy[0] << ",y::" << xy[1] << "";
+			LogOutput(s.str());
+			double answer = ConvertCoordinateToAngle(xy) * 1000;
+			Transfer((int)answer, 4);
+			ret = 0;
+			break;
+		}
+
+		case 3: //巨大検出
+		{
+			s << "red very big object detected.";
+
+			LogOutput(s.str());
+			ret = 2;
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+	return ret;
 }

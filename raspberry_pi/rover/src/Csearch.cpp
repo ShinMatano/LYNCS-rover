@@ -70,11 +70,11 @@ int Csearch::Search(int H_MAX1, int H_MIN1, int H_MAX2, int H_MIN2, double coord
 			}
 		}
 	}
-	if (Redsum < 1500)
+	if (Redsum < 70)
 	{
 		return (0);
 	}
-	if (Redsum > 51200)
+	if (Redsum > 22320)
 	{
 		return (3);
 	}
@@ -118,7 +118,7 @@ int Csearch::Search(int H_MAX1, int H_MIN1, int H_MAX2, int H_MIN2, double coord
 	}
 	coordinate[0] = coordinate[0] / pointcount;
 	coordinate[1] = coordinate[1] / pointcount;
-	//cout << Redsum << endl;
+	cout << Redsum << endl;
 
 	//circle((inputdata_inputdata_, cv::Point(coordinate[0], coordinate[1]), 30, Scalar(0, 255, 0), 2, 4);
 	//imshow("result", inputdata_);
