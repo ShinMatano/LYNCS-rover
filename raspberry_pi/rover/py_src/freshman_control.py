@@ -49,8 +49,8 @@ while done==False:
         print(axis0)
         if buttonm == 1:
             cs.Transfer(int(axis0), 4)
-        if buttonb == 1:
-            cs.Transfer(int(axis0), 8)    
+        elif buttonb == 1:
+            cs.Transfer(int(axis0), 8)
         else:
             cs.Transfer(0, 3)
     clock.tick(300)
