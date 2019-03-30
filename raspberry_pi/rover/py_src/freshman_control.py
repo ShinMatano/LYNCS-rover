@@ -45,6 +45,7 @@ while done==False:
 # axis1:center axis2:左右(y軸回転) axis5:上下(x軸回転)
         axis0 = int((-1000)*joystick.get_axis( 0 ))
         buttonm = joystick.get_button( 2 )
+        print(axis0)
         if buttonm == 1:
             cs.Transfer(int(axis0), 4)
         else:
