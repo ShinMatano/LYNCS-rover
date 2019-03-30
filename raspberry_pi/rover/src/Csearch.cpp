@@ -70,7 +70,7 @@ int Csearch::Search(int H_MAX1, int H_MIN1, int H_MAX2, int H_MIN2, double coord
 			}
 		}
 	}
-	if (Redsum < 70)
+	if (Redsum < 200)
 	{
 		return (0);
 	}

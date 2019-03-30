@@ -37,7 +37,7 @@ def velocity_reader(sentence):
     -------
     list : list of float or None
         speedとcourseのリスト。sentenceにこれらの情報が含まれていなかった場合はNoneとなる。
-    
+
     Notes
     -----
     speedの単位はknot, courseの単位は度である。
@@ -51,6 +51,23 @@ def velocity_reader(sentence):
         course = float(msg.true_course)
     return [speed, course]
 
+def altitude_reader(sentence):
+    """
+    sentenceから高度を取得する。
+
+    Returns
+    -------
+    altitude
+
+    Notes
+    -----
+    単位はm
+    """
+    msg = pynmea2.parse(sentence)
+    altitude = None
+    if msg.altitude != None:
+        altitude = float(msg.altitude)
+    return altitude
 
 def lat_long_measurement():
     """
@@ -84,7 +101,7 @@ def velocity_measurement():
     -------
     list : list of float or None
         speedとcourseのリスト。これらの情報が取得できなかった場合は取得できなかったものがNoneとなる。
-    
+
     Notes
     -----
     speedの単位はknot, courseの単位は度である。
@@ -110,16 +127,16 @@ def convert_lat_long_to_r_theta(lat0, long0, lat1, long1):
         点0の緯度
     long0 : float
         点0の経度
-    lat1 : 
+    lat1 :
         点1の緯度
-    long1 : 
+    long1 :
         点1の経度
 
     Returns
     -------
     list : list of float
         距離と方位角のリスト。
-    
+
     Notes
     -----
     距離の単位はkm, 方位角の単位はradである。
@@ -143,14 +160,14 @@ def r_theta_to_goal(goal_lat, goal_long):
     -------
     goal_lat : float
         ゴールの緯度
-    goal_long : 
+    goal_long :
         ゴールの経度
 
     Returns
     -------
     list : list of float
-        距離と方位角のリスト。取得できなかった場合はNoneを返す。 
-    
+        距離と方位角のリスト。取得できなかった場合はNoneを返す。
+
     Notes
     -----
     距離の単位はkm, 方位角の単位はradである。
