@@ -248,7 +248,7 @@ void loop()
 			rover_motor.RoverPower(0, 0);
 			break;
 		case 4: //Gカメラ進行
-			target_angle = (-1) * spi1 / 1000 + stack_angle;
+			target_angle = (-1) * (double)spi1 / 1000 + stack_angle;
 			vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
 			vkz = (-1) * vkz_pid.GetPID();
 			rover_motor.RoverPower(1, vkz);
@@ -268,6 +268,11 @@ void loop()
 				delay(2000);
 				judge_bool = 1;
 			}
+    case 8: //Gカメラ進行
+      target_angle = (-1) * (double)spi1 / 1000 + stack_angle;
+      vkz_pid.InputPID(gyz - gy[0], target_angle, 0.01);
+      vkz = (-1) * vkz_pid.GetPID();
+      rover_motor.RoverPower(-1, vkz);     
 		}
 
 		//Serial.println(vkz);
