@@ -9,6 +9,13 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.OUT)
 GPIO.output(18, GPIO.LOW)
+sleep(1)
+GPIO.output(18, GPIO.HIGH)
+sleep(1)
+GPIO.output(18, GPIO.LOW)
+sleep(1)
+GPIO.output(18, GPIO.HIGH)
+sleep(1)
 sleep(120)
 
 pygame.init()
