@@ -4,6 +4,8 @@ import math
 import ctypes
 import pygame
 
+sleep(120)
+
 pygame.init()
 done = False
 clock = pygame.time.Clock()
