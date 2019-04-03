@@ -1,9 +1,14 @@
 from bin import lyncs_rover
 from time import sleep
 import math
+import sys
 import ctypes
 import pygame
+import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.OUT)
+GPIO.output(18, GPIO.LOW)
 sleep(120)
 
 pygame.init()
