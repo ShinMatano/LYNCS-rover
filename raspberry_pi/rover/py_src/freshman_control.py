@@ -16,7 +16,9 @@ GPIO.output(18, GPIO.LOW)
 sleep(1)
 GPIO.output(18, GPIO.HIGH)
 sleep(1)
+GPIO.output(18, GPIO.LOW)
 sleep(120)
+GPIO.output(18, GPIO.HIGH)
 
 pygame.init()
 done = False
